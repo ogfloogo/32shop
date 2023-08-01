@@ -1,6 +1,6 @@
 /nbproject/
-/thinkphp/
-/vendor/
+#/thinkphp/
+#/vendor/
 /runtime/*
 /addons/*
 /public/assets/libs/
