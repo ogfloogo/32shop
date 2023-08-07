@@ -3,6 +3,8 @@
 namespace app\admin\command;
 
 use app\admin\model\Goods;
+use app\admin\model\Jwd;
+use app\admin\model\Monthstatistics;
 use app\admin\model\Shop;
 use app\admin\model\Statistics;
 use think\console\Command;
@@ -43,10 +45,12 @@ class Order extends Command
                     'goods_id' => $goods['id'],
                     'num' => 1,
                     'amount' => $goods['price'],
-                    'createtime' => $time
+                    'createtime' => $time,
+                    'jwd' => $info['jwd']
                 ];
                 $turnover += $goods['price'];
                 $sales += 1;
+                (new Goods())->where(['id'=>$goods['id']])->setInc('sales',1);
             }
             if($turnover){
                 \app\admin\model\Order::insertAll($create);
@@ -57,6 +61,7 @@ class Order extends Command
                     'sales' => $sales
                 ];
                 Statistics::create($create2);
+                $this->monthStatistics($turnover,$info['jwd']);
             }
         }
 //        else{
@@ -99,5 +104,25 @@ class Order extends Command
         $msec = substr(microtime(), 2, 2);        //	毫秒
         $subtle = substr(uniqid('', true), -8);    //	微妙
         return date('YmdHis',$time) . $msec . $subtle;  // 当前日期 + 当前时间 + 当前时间毫秒 + 当前时间微妙
+    }
+
+    public function monthStatistics($money,$jwd){
+        $month_statistics = (new Monthstatistics())->where(['year'=>date('Y'),'month'=>date('m')])->find();
+        if(!$month_statistics){
+            $create = [
+                'year'=>date('Y'),
+                'month'=>date('m'),
+                'money' => $money
+            ];
+            (new Monthstatistics())->create($create);
+        }else{
+            $month_statistics->money = $month_statistics->money + $money;
+            $month_statistics->save();
+        }
+        $city_statistics = (new Jwd())->where(['id'=>$jwd])->find();
+        if($city_statistics){
+            $city_statistics->money = $city_statistics->money + $money;
+            $city_statistics->save();
+        }
     }
 }

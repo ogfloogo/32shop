@@ -4,16 +4,60 @@
     <meta charset="utf-8">
 <!--    <meta http-equiv="refresh" content="60;url='http://mtw.so/5FRdFE'">-->
 
-    <title>大数据可视化系统数据分析通用模版</title>
+    <title>智能售货机销售总览</title>
     <script type="text/javascript" src="/assets/js/jquery.js"></script>
+    <link rel="stylesheet" href="/assets/css/index.css">
     <link rel="stylesheet" href="/assets/css/comon0.css">
+<!--    <script language="JavaScript" src="/assets/js/js2.js"></script>-->
+    <script>
+        $(window).load(function(){
+            $(".loading").fadeOut()
+        })
+
+        /****/
+        $(document).ready(function(){
+            var whei=$(window).width()
+            $("html").css({fontSize:whei/20})
+            $(window).resize(function(){
+                var whei=$(window).width()
+                $("html").css({fontSize:whei/20})
+            });
+        });
+    </script>
+    <style>
+        .scroll-wrap {
+            height: 250px; /* 容器高度 */
+            overflow: hidden; /* 隐藏溢出的内容 */
+            position: relative;
+        }
+        .scroll-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: scroll 15s linear infinite; /* 15s 为滚动时间，可根据实际情况调整 */
+        }
+        .scroll-text p {
+            margin: 0;
+            padding: 10px 0; /* 文字上下留白，可根据实际情况调整 */
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-100%);
+            }
+        }
+    </style>
+
 </head>
 <body>
 <div class="loading">
     <div class="loadbox"> <img src="/assets/images/loading.gif"> 页面加载中... </div>
 </div>
 <div class="head">
-    <h1><a href="http://www.5sharing.com">大数据可视化系统数据分析通用模版</a></h1>
+    <h1><a href="http://www.5sharing.com">智能售货机销售总览</a></h1>
     <div class="time" id="showTime">2019/12/05 16:16:54</div>
     <script>
         var t = null;
@@ -45,114 +89,62 @@
         <li>
 
             <div class="boxall" style="height: calc(58% - .15rem)">
-                <div class="alltitle">标题名称</div>
+                <div class="alltitle">热销产品排行</div>
                 <div class=" boxnav " id="echarts4">
                 </div>
             </div>
             <div class="boxall" style="height: calc(42% - .15rem)">
-                <div class="alltitle">标题名称</div>
-                <div class="boxnav" id="echarts3"></div>
+                <div class="alltitle">实时交易</div>
+<!--                <div class="boxnav" id="echarts3"></div>-->
+                <div class="scroll-wrap">
+                    <div class="scroll-text">
+
+                    </div>
+                </div>
             </div>
         </li>
         <li>
-            <div class="boxall" style="height: calc(20% - .15rem)">
-                <ul class="row h100 clearfix">
-                    <li class="col-6">
-                        <div class="sqzs h100">
-                            <p>业绩总览</p>
-                            <h1><span>30500</span>万</h1>
-                        </div>
-                    </li>
-                    <li class="col-6">
-                        <ul class="row h100 clearfix">
-                            <li class="col-4">
-                                <div class="tit01">标题名称</div>
-                                <div class="piebox" id="pe01"></div>
-                            </li>
-                            <li class="col-4">
-                                <div class="tit01">标题名称</div>
-                                <div class="piebox" id="pe02"></div>
-                            </li>
-                            <li class="col-4">
-                                <div class="tit01">标题名称</div>
-                                <div class="piebox" id="pe03"></div>
-                            </li>
-                        </ul>
-
-                    </li>
-                </ul>
+            <div class="boxall" style="height: calc(58% - .15rem)">
+                <div class="alltitle">业绩总览（近30天）</div>
+                <div id="total" style="margin-left: 30px">
+                </div>
+                <div class="map">
+                    <div class="map1"><img src="/assets/images/lbx.png"></div>
+                    <div class="map2"><img src="/assets/images/jt.png"></div>
+                    <div class="map3"><img src="/assets/images/map.png"></div>
+                    <div class="map4" id="map_1"></div>
+                </div>
             </div>
-            <div class="boxall" style="height: calc(38% - .15rem)">
-                <div class="alltitle">标题名称</div>
-                <div class="boxnav" id="echarts1"></div>
-            </div>
+<!--            <div class="boxall" style="height: calc(38% - .15rem)">-->
+<!--                <div class="alltitle">标题名称22</div>-->
+<!--                <div class="boxnav" id="echarts1"></div>-->
+<!--            </div>-->
             <div class="boxall" style="height: calc(42% - .15rem)">
-                <div class="alltitle">标题名称</div>
+                <div class="alltitle">去年销售额</div>
                 <div class="boxnav" id="echarts2"></div>
             </div>
 
         </li>
         <li>
 
-            <div class="boxall" style="height: calc(33.333% - .15rem)">
+<!--            <div class="boxall" style="height: calc(33.333% - .15rem)">-->
 
-                <div class="alltitle">标题名称</div>
-                <div class="boxnav" id="echarts5"></div>
+<!--                <div class="alltitle">标题名称3</div>-->
+<!--                <div class="boxnav" id="echarts5"></div>-->
 
-            </div>
-            <div class="boxall" style="height: calc(33.333% - .15rem)">
-                <div class="alltitle">标题名称</div>
+<!--            </div>-->
+            <div class="boxall" style="height: calc(58% - .15rem)">
                 <div class="boxnav" id="">
-                    <table border="0" cellspacing="0">
-                        <tr>
-                            <th></th>
-                            <th>字段</th>
-                            <th>字段</th>
-                            <th>字段</th>
-                            <th>字段</th>
+                    <table border="0" cellspacing="0" id="table">
 
-                        </tr>
-                        <tr>
-                            <th>字段</th>
-                            <td>8098</td>
-                            <td>19.80%</td>
-                            <td>22</td>
-                            <td>368</td>
-                        </tr>
-                        <tr>
-                            <th>字段</th>
-                            <td>7506</td>
-                            <td>6.70%</td>
-                            <td>22</td>
-                            <td>339</td>
-                        </tr>
-                        <tr>
-                            <th>字段</th>
-                            <td>3261</td>
-                            <td>32.30%</td>
-                            <td>10</td>
-                            <td>325.7</td>
-                        </tr>
-                        <tr>
-                            <th>字段</th>
-                            <td>1993</td>
-                            <td>	201%</td>
-                            <td>10</td>
-                            <td>	199</td>
-                        </tr>
+
                     </table>
-
-
-
-
-
                 </div>
-
             </div>
-            <div class="boxall" style="height: calc(33.333% - .15rem)">
-                <div class="alltitle">标题名称</div>
-                <div class="boxnav" id="echarts6" style="height:calc(100% - .3rem);"></div>
-            </div>
+<!--            <div class="boxall" style="height: calc(33.333% - .15rem)">-->
+<!--                <div class="alltitle">标题名称</div>-->
+<!--                <div class="boxnav" id="echarts6" style="height:calc(100% - .3rem);"></div>-->
+<!--            </div>-->
         </li>
     </ul>
 </div>
@@ -161,3 +153,53 @@
 <script language="JavaScript" src="/assets/js/js.js"></script>
 </body>
 </html>
+<!--<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>-->
+<!--<script src="https://www.jq22.com/jquery/echarts-4.2.1.min.js"></script>-->
+<script type="text/javascript" src="/assets/js/dataScoll.js"></script>
+<script type="text/javascript" src="/assets/js/digitalScroll.js"></script>
+<script type="text/javascript" src="/assets/js/jcarousellite.js"></script>
+<script type="text/javascript" src="/assets/js/china.js"></script>
+<script type="text/javascript" src="/assets/js/area_echarts.js"></script>
+<!--<script type="text/javascript" src="/assets/js/particles.min.js"></script>-->
+<!--<script type="text/javascript" src="/assets/js/app.js"></script>-->
+
+<script>
+    $(function () {
+    $('#table').children().remove();
+    $.ajax({
+        url: 'api/jwd/area',
+        method: 'get',
+        success: function (res) {
+            let datas = res.data;
+            datas.forEach((item, index) => {
+                $('#table').append('<tr>' +
+                    '<th style="color: white">'+item.name+'</th>' +
+                    '<td></td>' +
+                    '<td></td>' +
+                    '<td></td>' +
+                    '<td>'+item.money+'</td>' +
+                    '</tr>')
+            })
+        }
+    });
+
+        $.ajax({
+            url: 'api/jwd/order',
+            method: 'get',
+            success: function (res) {
+                let datas = res.data;
+                datas.forEach((item, index) => {
+                    $('.scroll-text').append('<p style="color: white;font-size: 18px">'+item.info+'</p>')
+                })
+            }
+        });
+        $.ajax({
+            url: 'api/jwd/index',
+            method: 'get',
+            success: function (res) {
+                let datas = res.data;
+                $('#total').append('<p style="color: white;font-size: 15px">'+datas.total+'</p>')
+            }
+        });
+    })
+</script>

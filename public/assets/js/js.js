@@ -15,15 +15,15 @@ $(document).ready(function(){
 
  $(window).load(function(){$(".loading").fadeOut()})  
 $(function () {
-    echarts_1()
+    // echarts_1()
     echarts_2()
-    echarts_3()
+    // echarts_3()
     echarts_4()
-    echarts_5()
-    echarts_6()
-    pe01()
-    pe02()
-    pe03()
+    // echarts_5()
+    // echarts_6()
+    // pe01()
+    // pe02()
+    // pe03()
 
 function echarts_1() {
  var myChart = echarts.init(document.getElementById('echarts1'));
@@ -225,165 +225,146 @@ legend: {
 	
     }
 function echarts_2() {
-        // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts2'));
-
-       option = {
-	    tooltip: {
-        trigger: 'axis',
-        axisPointer: {type: 'shadow'},
-       // formatter:'{c}' ,
-    },
-    grid: {
-        left: '0',
-	  	top: '30',
-        right: '10',
-        bottom: '-20',
-        containLabel: true
-    },
-    legend: {
-        data: ['字段1', '字段2'],
-        right: 'center',
-        top:0,
-        textStyle: {
-            color: "#fff"
-        },
-        itemWidth: 12,
-        itemHeight: 10,
-        // itemGap: 35
-    },
-
-    xAxis: [{
-        type: 'category',
-        boundaryGap: false,
-axisLabel:  {
-  rotate: -90,
-                textStyle: {
- 					color: "rgba(255,255,255,.6)",
-          fontSize:14,
-         
-                },
-            },
-        axisLine: {
-			lineStyle: { 
-				color: 'rgba(255,255,255,.1)'
-			}
-
-        },
-
-   data: ['17年3月', '17年6月', '17年9月', '17年12月', '18年3月', '18年6月', '18年9月', '18年12月', '19年3月', '19年6月', '19年9月', '19年12月']
-
-    }, {
-
-        axisPointer: {show: false},
-        axisLine: {  show: false},
-        position: 'bottom',
-        offset: 20,
-
-       
-
-    }],
-
-    yAxis: [{
-        type: 'value',
-        axisTick: {show: false},
-       // splitNumber: 6,
-        axisLine: {
-            lineStyle: {
-                color: 'rgba(255,255,255,.1)'
+    var data1 = [];
+    var data2 = [];
+    $.ajax({
+        url: 'api/jwd/month',
+        method: 'get',
+        success: function (res) {
+            let datas = res.data;
+            for (let i in datas) {
+                data1[i] = datas[i].time
+                data2[i] = datas[i].money
             }
-        },
-       axisLabel:  {
-        formatter: "{value} %",
-                textStyle: {
- 					color: "rgba(255,255,255,.6)",
-					fontSize:14,
-                },
-            },
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('echarts2'));
 
-        splitLine: {
-            lineStyle: {
-                 color: 'rgba(255,255,255,.1)'
-            }
+            option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {type: 'shadow'},
+                    // formatter:'{c}' ,
+                },
+                grid: {
+                    left: '0',
+                    top: '30',
+                    right: '10',
+                    bottom: '-20',
+                    containLabel: true
+                },
+                legend: {
+                    data: ['销售额'],
+                    right: 'center',
+                    top:0,
+                    textStyle: {
+                        color: "#fff"
+                    },
+                    itemWidth: 12,
+                    itemHeight: 10,
+                    // itemGap: 35
+                },
+
+                xAxis: [{
+                    type: 'category',
+                    boundaryGap: false,
+                    axisLabel:  {
+                        rotate: -90,
+                        textStyle: {
+                            color: "rgba(255,255,255,.6)",
+                            fontSize:14,
+
+                        },
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: 'rgba(255,255,255,.1)'
+                        }
+
+                    },
+
+                    data: data1
+
+                }, {
+
+                    axisPointer: {show: false},
+                    axisLine: {  show: false},
+                    position: 'bottom',
+                    offset: 20,
+
+
+
+                }],
+
+                yAxis: [{
+                    type: 'value',
+                    axisTick: {show: false},
+                    // splitNumber: 6,
+                    axisLine: {
+                        lineStyle: {
+                            color: 'rgba(255,255,255,.1)'
+                        }
+                    },
+                    axisLabel:  {
+                        formatter: "{value} ",
+                        textStyle: {
+                            color: "rgba(255,255,255,.6)",
+                            fontSize:14,
+                        },
+                    },
+
+                    splitLine: {
+                        lineStyle: {
+                            color: 'rgba(255,255,255,.1)'
+                        }
+                    }
+                }],
+                series: [
+                    {
+                        name: '销售额',
+                        type: 'line',
+                        smooth: true,
+                        symbol: 'circle',
+                        symbolSize: 5,
+                        showSymbol: false,
+                        lineStyle: {
+                            normal: {
+                                color: 'rgba(228, 228, 126, 1)',
+                                width: 2
+                            }
+                        },
+                        areaStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: 'rgba(228, 228, 126, .2)'
+                                }, {
+                                    offset: 1,
+                                    color: 'rgba(228, 228, 126, 0)'
+                                }], false),
+                                shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: 'rgba(228, 228, 126, 1)',
+                                borderColor: 'rgba(228, 228, 126, .1)',
+                                borderWidth: 12
+                            }
+                        },
+                        data: data2
+
+                    },
+
+                ]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+            window.addEventListener("resize",function(){
+                myChart.resize();
+            });
         }
-    }],
-    series: [
-		{
-        name: '字段1',
-        type: 'line',
-        smooth: true,
-        symbol: 'circle',
-        symbolSize: 5,
-        showSymbol: false,
-        lineStyle: {
-            normal: {
-				color: 'rgba(228, 228, 126, 1)',
-                width: 2
-            }
-        },
-        areaStyle: {
-            normal: {
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                    offset: 0,
-                    color: 'rgba(228, 228, 126, .2)'
-                }, {
-                    offset: 1,
-                    color: 'rgba(228, 228, 126, 0)'
-                }], false),
-                shadowColor: 'rgba(0, 0, 0, 0.1)',
-            }
-        },
-			itemStyle: {
-			normal: {
-        color: 'rgba(228, 228, 126, 1)',
-				borderColor: 'rgba(228, 228, 126, .1)',
-				borderWidth: 12
-			}
-		},
-        data: [12.50, 14.4, 16.1, 14.9, 20.1, 17.2, 17.0, 13.42, 20.12, 18.94, 17.27, 16.10 ]
+    });
 
-    }, {
-        name: '字段2',
-        type: 'line',
-        smooth: true,
-        symbol: 'circle',
-        symbolSize: 5,
-        showSymbol: false,
-        lineStyle: {
-			
-            normal: {
-				color: 'rgba(255, 128, 128, 1)',
-                width: 2
-            }
-        },
-        areaStyle: {
-            normal: {
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                    offset: 0,
-                    color: 'rgba(255, 128, 128,.2)'
-                }, {
-                    offset:1,
-                    color: 'rgba(255, 128, 128, 0)'
-                }], false),
-                shadowColor: 'rgba(0, 0, 0, 0.1)',
-            }
-        },
-			itemStyle: {
-			normal: {
-				color: 'rgba(255, 128, 128, 1)',
-				borderColor: 'rgba(255, 128, 128, .1)',
-				borderWidth: 12
-			}
-		},
-        data: [-6.4, 0.1, 6.6, 11.2, 42.1, 26.0, 20.2, 18.31, 21.59, 24.42, 34.03, 32.9]
-    }, 
-		 ]
-};
-        // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
-        window.addEventListener("resize",function(){
-            myChart.resize();
-        });
     }
     function echarts_3() {
         // 基于准备好的dom，初始化echarts实例
@@ -616,114 +597,130 @@ axisLabel:  {
   }
     function echarts_4() {
       // 基于准备好的dom，初始化echarts实例
-      var myChart = echarts.init(document.getElementById('echarts4'));
-      var myColor=['#eb2100','#eb3600','#d0570e','#d0a00e','#34da62','#00e9db','#00c0e9','#0096f3'];
-      option = {
-           
-              grid: {
-                  left: '2%',
-                  top:'1%',
-                  right: '5%',
-                  bottom: '0%',
-                  containLabel: true
-              },
-              xAxis: [{
-                  show: false,
-              }],
-              yAxis: [{
-                      axisTick:'none',
-                      axisLine:'none',
-                      offset:'7',
-                      axisLabel: {
-                              textStyle: {
-                                  color: 'rgba(255,255,255,.6)',
-                                  fontSize:'14',
-                              }
-                          },
-                      data: ['字段1','字段2','字段3','字段4','字段5','字段6','字段7','字段8','字段9']
+        var data1 = [];
+        var data2 = [];
+        var data3 = [];
+        $.ajax({
+            url:     'api/jwd/goods',
+            method:  'get',
+            success: function (res) {
+                let datas = res.data;
+                for(let i in datas){
+                    data1[i] = datas[i].name
+                    data2[i] = datas[i].sales
+                    data3[i] = datas[i].rate
+                }
 
-                  }, {
-                      axisTick:'none',
-                      axisLine:'none',
-                      axisLabel: {
-                              textStyle: {
+
+                var myChart = echarts.init(document.getElementById('echarts4'));
+                var myColor = ['#eb2100', '#eb3600', '#d0570e', '#d0a00e', '#34da62', '#00e9db', '#00c0e9', '#0096f3'];
+                option = {
+
+                    grid: {
+                        left: '2%',
+                        top: '1%',
+                        right: '5%',
+                        bottom: '0%',
+                        containLabel: true
+                    },
+                    xAxis: [{
+                        show: false,
+                    }],
+                    yAxis: [{
+                        axisTick: 'none',
+                        axisLine: 'none',
+                        offset: '7',
+                        axisLabel: {
+                            textStyle: {
                                 color: 'rgba(255,255,255,.6)',
-                                  fontSize:'14',
-                              }
-                          },
-                      data: [1514, 1619, 1623,1968,2158,2456 ,3506,4664,8390]
+                                fontSize: '14',
+                            }
+                        },
+                        data: data1
 
-                       },{
-                      name:'单位：件',
-                          nameGap:'50',
-                          nameTextStyle:{
+                    }, {
+                        axisTick: 'none',
+                        axisLine: 'none',
+                        axisLabel: {
+                            textStyle: {
+                                color: 'rgba(255,255,255,.6)',
+                                fontSize: '14',
+                            }
+                        },
+                        data: data2
+
+                    }, {
+                        name: '单位：件',
+                        nameGap: '50',
+                        nameTextStyle: {
                             color: 'rgba(255,255,255,.6)',
-                              fontSize:'16',
-                          },
-                      axisLine:{
-                        lineStyle:{
-                          color:'rgba(0,0,0,0)'
-                        }
-                      },
-                      data: [],
-              }],
-              series: [{
-                  name: '条',
-                  type: 'bar',
-                  yAxisIndex: 0,
-                  data: [25,30,34,40,43,48,52,56,70],
-                  label:{
-                        normal:{
-                          show:true,
-                          position:'right',
-                          formatter:function(param){
-                            return param.value + '%';
-                          },
-                          textStyle:{
-                            color: 'rgba(255,255,255,.8)',
-                             fontSize:'12',
-                          }
-                        }
-                  },
-                  barWidth: 15,
-                  itemStyle: {
-                      normal: {
-                          color: new echarts.graphic.LinearGradient(1, 0, 0, 0, [{
-                                  offset: 0,
-                                  color: '#03c893'
-                              },
-                              {
-                                  offset: 1,
-                                  color: '#0091ff'
-                              }
-                          ]),
-                          barBorderRadius: 15,
-                      }
-                  },
-                  z: 2
-              }, {
-                  name: '白框',
-                  type: 'bar',
-                  yAxisIndex: 1,
-                  barGap: '-100%',
-                  data: [99.5,99.5,99.5,99.5,99.5,99.5,99.5,99.5,99.5,99.5],
-                  barWidth: 15,
-                  itemStyle: {
-                      normal: {
-                        color:'rgba(0,0,0,.2)',
-                          barBorderRadius:15,
-                      }
-                  },
-                  z: 1
-              }]
-          };
-   
+                            fontSize: '16',
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: 'rgba(0,0,0,0)'
+                            }
+                        },
+                        data: [],
+                    }],
+                    series: [{
+                        name: '条',
+                        type: 'bar',
+                        yAxisIndex: 0,
+                        data: data3,
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'right',
+                                formatter: function (param) {
+                                    return param.value + '%';
+                                },
+                                textStyle: {
+                                    color: 'rgba(255,255,255,.8)',
+                                    fontSize: '12',
+                                }
+                            }
+                        },
+                        barWidth: 15,
+                        itemStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(1, 0, 0, 0, [{
+                                    offset: 0,
+                                    color: '#03c893'
+                                },
+                                    {
+                                        offset: 1,
+                                        color: '#0091ff'
+                                    }
+                                ]),
+                                barBorderRadius: 15,
+                            }
+                        },
+                        z: 2
+                    }, {
+                        name: '白框',
+                        type: 'bar',
+                        yAxisIndex: 1,
+                        barGap: '-100%',
+                        data: [99.5, 99.5, 99.5, 99.5, 99.5, 99.5, 99.5, 99.5, 99.5, 99.5],
+                        barWidth: 15,
+                        itemStyle: {
+                            normal: {
+                                color: 'rgba(0,0,0,.2)',
+                                barBorderRadius: 15,
+                            }
+                        },
+                        z: 1
+                    }]
+                };
 
-      // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(option);
-      window.addEventListener("resize",function(){
-          myChart.resize();
-      });
+
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+                window.addEventListener("resize", function () {
+                    myChart.resize();
+                });
+            }});
   }
   function echarts_6() {
     // 基于准备好的dom，初始化echarts实例

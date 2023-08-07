@@ -18,4 +18,5 @@ return [
     'app\admin\command\Addon',
     'app\admin\command\Api',
     'app\admin\command\Order',
+    'app\admin\command\AreaCityStatistics',
 ];
