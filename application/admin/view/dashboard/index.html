@@ -176,6 +176,7 @@
                 <div class="widget-body no-padding">
 <!--                    <a href="javascript:;" class="btn btn-primary refresh" title="{:__('Refresh')}" ><i class="fa fa-refresh"></i> </a>-->
                      <select id="c-shop" data-rule="required" class="form-control selectpicker" name="row[shop]" style="display: inline-block !important;width: 200px;">
+                         <option value="">请选择门店</option>
                         {foreach name="shop" item="vo"}
                         <option value="{$key}" {if condition="$key eq $shop_id"}selected {/if} >{$vo}</option>
                         {/foreach}
