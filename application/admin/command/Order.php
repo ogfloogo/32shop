@@ -61,7 +61,7 @@ class Order extends Command
                     'sales' => $sales
                 ];
                 Statistics::create($create2);
-                $this->monthStatistics($turnover,$info['jwd']);
+                $this->monthStatistics($turnover,$info['jwd'],$info['id']);
             }
         }
 //        else{
@@ -106,13 +106,14 @@ class Order extends Command
         return date('YmdHis',$time) . $msec . $subtle;  // 当前日期 + 当前时间 + 当前时间毫秒 + 当前时间微妙
     }
 
-    public function monthStatistics($money,$jwd){
-        $month_statistics = (new Monthstatistics())->where(['year'=>date('Y'),'month'=>date('m')])->find();
+    public function monthStatistics($money,$jwd,$shop_id){
+        $month_statistics = (new Monthstatistics())->where(['year'=>date('Y'),'month'=>date('m'),'shop_id'=>$shop_id])->find();
         if(!$month_statistics){
             $create = [
                 'year'=>date('Y'),
                 'month'=>date('m'),
-                'money' => $money
+                'money' => $money,
+                'shop_id' => $shop_id
             ];
             (new Monthstatistics())->create($create);
         }else{

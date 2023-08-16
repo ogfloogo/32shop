@@ -4,12 +4,25 @@ define(['jquery', 'bootstrap', 'backend', 'addtabs', 'table', 'echarts', 'echart
 
     var Controller = {
         index: function () {
+
             // 基于准备好的dom，初始化echarts实例
             var chartCash = Echarts.init(document.getElementById('echart-cash'), 'walden');
             var chartReg = Echarts.init(document.getElementById('echart-reg'), 'walden');
             // var chartUser = Echarts.init(document.getElementById('echart-user'), 'walden');
-            console.log(Config.chart_data.date);
+            // console.log(Config.chart_data.date);
+            require(['bootstrap-daterangepicker'], function () {
+                let shop = Fast.api.query("shop_id")?Fast.api.query("shop_id"):$('#c-shop').val();
+                console.log(shop)
+                $('#c-shop').val(shop)
 
+                $('#c-shop').change(function(){
+                    shop = $('#c-shop').val();
+                    location.href='dashboard?shop_id='+shop
+                });
+                $(".refresh").click(function () {
+                    location.href='dashboard?shop_id='+shop
+                })
+            });
             var option1 = {
                 title: {
                     text: '近30日销售额'
@@ -202,7 +215,7 @@ define(['jquery', 'bootstrap', 'backend', 'addtabs', 'table', 'echarts', 'echart
             $(window).resize(function () {
                 chartCash.resize();
                 chartReg.resize();
-                chartUser.resize();
+                // chartUser.resize();
             });
 
             $(document).on("click", ".btn-refresh", function () {

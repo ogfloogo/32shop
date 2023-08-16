@@ -170,10 +170,17 @@
         </ul>
     </div>
     <div class="panel-body">
-        <input type="button" onclick="javascript:location.reload();" value="刷新当前页面">
+<!--        <input type="button" onclick="javascript:location.reload();" value="刷新当前页面">-->
         <div id="myTabContent" class="tab-content">
             <div class="tab-pane fade active in" id="one">
-
+                <div class="widget-body no-padding">
+<!--                    <a href="javascript:;" class="btn btn-primary refresh" title="{:__('Refresh')}" ><i class="fa fa-refresh"></i> </a>-->
+                     <select id="c-shop" data-rule="required" class="form-control selectpicker" name="row[shop]" style="display: inline-block !important;width: 200px;">
+                        {foreach name="shop" item="vo"}
+                        <option value="{$key}" {if condition="$key eq $shop_id"}selected {/if} >{$vo}</option>
+                        {/foreach}
+                    </select>
+                </div>
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">
                         <div class="sm-st clearfix">

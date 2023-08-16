@@ -26,6 +26,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     [
                         {checkbox: true},
                         {field: 'id', title: __('Id')},
+                        {field: 'shop_id', title: __('门店')},
                         {field: 'year', title: __('Year')},
                         {field: 'month', title: __('Month')},
                         {field: 'money', title: __('Money'), operate:'BETWEEN'},

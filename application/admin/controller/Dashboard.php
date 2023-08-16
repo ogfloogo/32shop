@@ -31,8 +31,9 @@ class Dashboard extends Backend
     /**
      * 查看
      */
-    public function index()
+    public function index($shop_id = null)
     {
+//        echo $shop_id;exit;
         try {
             \think\Db::execute("SET @@sql_mode='';");
         } catch (\Exception $e) {
@@ -44,10 +45,15 @@ class Dashboard extends Backend
         //     ->field('jointime, status, COUNT(*) AS nums, DATE_FORMAT(FROM_UNIXTIME(jointime), "%Y-%m-%d") AS join_date')
         //     ->group('join_date')
         //     ->select();
+        $shop = (new \app\admin\model\Shop())->column('name','id');
+        $where2 = [];
+        if($shop_id){
+            $where2['shop_id'] = $shop_id;
+        }
         for ($time = $starttime; $time <= $endtime;) {
             $date = date("Y-m-d", $time);
             $column[] = date("m-d", $time);
-            $rechargeList[] = (new \app\admin\model\Statistics())->where(['date' => $date])->sum('turnover');
+            $rechargeList[] = (new \app\admin\model\Statistics())->where(['date' => $date])->where($where2)->sum('turnover');
 //            $time_range = ['between', [strtotime($date . ' 00:00:00'), strtotime($date . ' 23:59:59')]];
 //            $reportInfo = (new Report())->where(['date' => $date])->find();
 //
@@ -59,8 +65,9 @@ class Dashboard extends Backend
 //            $loginList[] = intval((new Usertotal())->getLoginCount(date('ymd', $time)));
             $time += 86400;
         }
-
-        $goods = (new \app\admin\model\Goods())->order('sales desc')->limit(10)->select();
+        $goods_name = [];
+        $goods = (new \app\admin\model\Goods())->order('sales desc')->where($where2)->limit(10)->select();
+        $sales = [];
         foreach ($goods as $v){
             $goods_name[] = $v['name'];
             $sales[] = $v['sales'];
@@ -85,12 +92,14 @@ class Dashboard extends Backend
 //
 //        $todayReport = (new Report())->where(['date' => date('Y-m-d')])->find();
 //        $todayLogin = (new Usertotal())->getLoginCount();
-
+//var_dump($where2);exit;
         $this->view->assign([
 
-            'totaluser'         => (new \app\admin\model\Monthstatistics())->sum('money'),
-            'totalorder'        => (new \app\admin\model\Monthstatistics())->where(['year'=>date('Y'),'month'=>date('m')])->value('money'),
-            'totalrecharge'        => (new \app\admin\model\Goods())->sum('sales'),
+            'totaluser'         => (new \app\admin\model\Monthstatistics())->where($where2)->sum('money'),
+            'totalorder'        => (new \app\admin\model\Monthstatistics())->where(['year'=>date('Y'),'month'=>date('m')])->where($where2)->value('money'),
+            'totalrecharge'        => (new \app\admin\model\Goods())->where($where2)->sum('sales'),
+            'shop' => $shop,
+            'shop_id' => $shop_id,
 //            'totalwithdraw'     => UserCash::where(['status' => ['IN', [2, 3]]])->sum('price'),
 //
 //            'todaynewuser'    => isset($todayReport['user']) ? $todayReport['user'] : 0,
